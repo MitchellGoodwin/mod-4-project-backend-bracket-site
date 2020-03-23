@@ -1,5 +1,5 @@
 class EntrySerializer < ActiveModel::Serializer
   attributes :id, :seed
-  has_one :user
+  belongs_to :user, serializer: UserSerializer
   has_one :bracket
 end

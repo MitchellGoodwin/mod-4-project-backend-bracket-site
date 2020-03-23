@@ -12,7 +12,7 @@ class Bracket < ApplicationRecord
         new_round = match.round + 1
         new_set = (match.set + 1) / 2
         new_match = Match.find_by(round: new_round, set: new_set, bracket: self)
-        if match.round.even?
+        if match.set.even?
           new_match.user_two = winner
         else
           new_match.user_one = winner
