@@ -21,6 +21,7 @@ class Bracket < ApplicationRecord
       end
     end
 
+
     def num_rounds
       self.matches.last.round
     end

@@ -6,6 +6,18 @@ class BracketsController < ApplicationController
         render json: { brackets: brackets.map{|bracket| BracketsSerializer.new(bracket)} }
     end
 
+    def create
+        bracket = Bracket.new(bracket_params)
+        bracket.status = 'pending'
+        if current_user
+            bracket.user = current_user
+            bracket.save
+            render json: bracket.to_json(only: [:id])
+        else
+            render json: { message: 'Please log in' }, status: :unauthorized
+        end
+    end
+
     def show
         bracket = Bracket.find_by(id: params[:id])
         render json: bracket.to_json(only: [:id, :name, :desc, :status, :user_id], 
@@ -18,5 +30,11 @@ class BracketsController < ApplicationController
                 :user_two => {:only => [:username, :id]},
                 :winner => {:only => [:username, :id]}}
             }})
+    end
+
+    private
+
+    def bracket_params
+        params.require(:bracket).permit(:name, :desc)
     end
 end
