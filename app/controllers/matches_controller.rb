@@ -16,6 +16,8 @@ class MatchesController < ApplicationController
                 :include => {:user_one => {:only => [:username, :id]},
                 :user_two => {:only => [:username, :id]},
                 :winner => {:only => [:username, :id]}}
+            }, :user => {
+                :only => [:id, :username]
             }})
         else
             render json: { message: 'Not the right user' }, status: :unauthorized

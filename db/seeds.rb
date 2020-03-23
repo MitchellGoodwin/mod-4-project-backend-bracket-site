@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 tbracket = Bracket.all.last
 
-20.times do
+12.times do
     user = User.create(username: Faker::Internet.unique.username, email: Faker::Internet.unique.email, password: 'test')
     Entry.create(user: user, bracket: tbracket, seed: tbracket.entries.size + 1)
 end

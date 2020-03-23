@@ -18,6 +18,25 @@ class BracketsController < ApplicationController
         end
     end
 
+    def update
+        bracket = Bracket.find_by(id: params[:id])
+        bracket.status = params[:status]
+        bracket.save
+        render json: bracket.to_json(only: [:id, :name, :desc, :status, :user_id], 
+            :include => { :entries => {
+                :only => [ :id, :seed],
+                :include => {:user => {:only => [:username, :id]}}
+            }, :matches => {
+                :only => [:id, :round, :set],
+                :include => {:user_one => {:only => [:username, :id]},
+                :user_two => {:only => [:username, :id]},
+                :winner => {:only => [:username, :id]}}
+            }, :user => {
+                :only => [:id, :username]
+            }
+        })
+    end
+
     def show
         bracket = Bracket.find_by(id: params[:id])
         render json: bracket.to_json(only: [:id, :name, :desc, :status, :user_id], 
@@ -29,7 +48,10 @@ class BracketsController < ApplicationController
                 :include => {:user_one => {:only => [:username, :id]},
                 :user_two => {:only => [:username, :id]},
                 :winner => {:only => [:username, :id]}}
-            }})
+            }, :user => {
+                :only => [:id, :username]
+            }
+        })
     end
 
     private

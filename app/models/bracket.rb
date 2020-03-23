@@ -18,6 +18,9 @@ class Bracket < ApplicationRecord
           new_match.user_one = winner
         end 
         new_match.save
+      else
+        match.bracket.status = 'finished'
+        match.bracket.save
       end
     end
 
