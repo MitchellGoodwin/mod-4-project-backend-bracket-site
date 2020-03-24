@@ -28,9 +28,11 @@ class BracketsController < ApplicationController
                 :include => {:user => {:only => [:username, :id]}}
             }, :matches => {
                 :only => [:id, :round, :set],
-                :include => {:user_one => {:only => [:username, :id]},
-                :user_two => {:only => [:username, :id]},
-                :winner => {:only => [:username, :id]}}
+                :include => {
+                    :user_one => {:only => [:username, :id]},
+                    :user_two => {:only => [:username, :id]},
+                    :winner => {:only => [:username, :id]}
+                }
             }, :user => {
                 :only => [:id, :username]
             }

@@ -26,11 +26,11 @@ class Bracket < ApplicationRecord
 
 
     def num_rounds
-      self.matches.last.round
+      self.matches.map{|match| match.round}.uniq.sort.last
     end
 
     def resolve_byes
-      self.matches.each do |match|
+      self.matches.select{|match| match.round == 1}.each do |match|
         if !match.user_one || !match.user_two
           if match.user_one
             match.bracket.resolve_winner(match, match.user_one)
